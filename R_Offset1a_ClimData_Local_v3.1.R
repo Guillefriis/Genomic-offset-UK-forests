@@ -209,5 +209,5 @@ Env_far_all <- Env_far_all[, -1]
 
 rm(bio_fcrop, bio_rcrop, bio_ncrop) # These need to be rebuild downstreams
 
-save.image('ClimData1b.RData')
+save.image('ClimData1.RData')
 
