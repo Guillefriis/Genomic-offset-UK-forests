@@ -2,99 +2,62 @@
 
 R workflow for genomic offset analyses under present and future climate scenarios.
 
-This repository contains the full analytical pipeline used to:
+This repository contains scripts to:
+- compute population SNP allele frequencies
+- prepare climate predictors
+- perform RDA-based environmental association analyses
+- detect candidate adaptive loci
+- estimate genomic offset and sapling maladaptation
 
-- Process SNP allele frequencies  
-- Select environmental predictors  
-- Fit genotype–environment models  
-- Detect candidate adaptive loci  
-- Compute genomic offset metrics  
+Project: Friis et al. 2026 (in preparation)
 
-**Project:** Friis et al. 2026 (in preparation)
+## Workflow
 
----
+Scripts are modular and must be run sequentially.
 
-## Workflow Overview
+### Climate and Frequency Preparation
+- `R_Offset1a_ClimData_Local_v3.1.R`
+- `R_Offset1b_SNPfreq_Cluster_v2.1.R`
+- `R_Offset2_FormatFreqs_Cluster_v2.1.R`
 
-The pipeline is modular and sequential.  
-Scripts must be executed in order.
+### Environmental Screening and Model Fitting
+- `R_Offset3_TestAllVar_Cluster_v2.2.R`
+- `R_Offset4_BuiltENM_Local_v3.1.R`
+- `R_Offset5_TestVIF_Cluster_v2.1.R`
 
----
+### Candidate Loci and Genomic Offset
+- `R_Offset6_DetectOutliers_Cluster_v2.2.R`
+- `R_Offset7_ModelsFreq_Local_v2.3.R`
 
-## 1. Climate Data Preparation
+The final stage includes:
+- RDA-based candidate SNP identification
+- Projection of RDA loadings onto present and future climate rasters
+- Computation of genomic offset metrics
+- Comparison of observed versus predicted sapling allele frequencies
 
-### `R_Offset1a_ClimData_Local_v3.1.R`
+## Methodological Basis
 
-Preparation and formatting of climatic predictor variables.
+Several components of this workflow are adapted from and inspired by scripts developed by Thibaut Capblancq, particularly:
 
-### `R_Offset1b_SNPfreq_Cluster_v2.1.R`
+- RDA landscape genomics framework  
+  https://github.com/Capblancq/RDA-landscape-genomics
 
-Computation of population-level SNP allele frequencies.  
-Designed for execution on a compute cluster.
+- RDA genome scan approach  
+  https://github.com/Capblancq/RDA-genome-scan
 
----
+These repositories provide the conceptual and statistical foundations for the RDA-based candidate detection and genome–environment association procedures implemented here.
 
-## 2. Frequency Matrix Formatting
+## Requirements
 
-### `R_Offset2_FormatFreqs_Cluster_v2.1.R`
+R ≥ 4.2 recommended.  
+Common packages include tidyverse, vegan, terra, sf, car, qvalue, and related dependencies.
 
-Reshaping and formatting allele frequency matrices for downstream modelling.
+Cluster scripts assume high-memory parallel execution.
 
----
+## Data
 
-## 3. Environmental Variable Selection
+Large genomic datasets and raster layers are not included.
 
-### `R_Offset3_TestAllVar_Cluster_v2.2.R`
+## License
 
-Iterative testing of environmental predictors.
-
-### `R_Offset5_TestVIF_Cluster_v2.1.R`
-
-Variance Inflation Factor (VIF) analysis to reduce multicollinearity among predictors.
-
----
-
-## 4. Environmental Model Construction
-
-### `R_Offset4_BuiltENM_Local_v3.1.R`
-
-Construction of environmental niche models.
-
-### `R_Offset6_DetectOutliers_Cluster_v2.2.R`
-
-Identification of candidate adaptive loci.
-
----
-
-## 5. Genomic Offset Estimation
-
-### `R_Offset7_ModelsFreq_Local_v2.3.R`
-
-Prediction of allele frequencies under future climate scenarios and computation of genomic offset metrics.
-
----
-
-## Computational Environment
-
-- R ≥ 4.2 recommended  
-- Designed for mixed local and HPC cluster execution  
-
-Typical R packages used across scripts include:
-
-- tidyverse  
-- vegan  
-- terra  
-- sf  
-- AlleleShift  
-- car  
-- qvalue  
-
----
-
-## Data Availability
-
-Raw genomic datasets, raster layers, and intermediate objects are not included due to file size and data governance constraints.
-
-Scripts are provided to ensure transparency and reproducibility of analytical procedures.
-
----
+MIT License.
